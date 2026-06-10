@@ -1,0 +1,69 @@
+"import React, { useState } from 'react';
+import { useGIB } from './context/GIBContext';
+import OverviewModule from './components/OverviewModule';
+import ShopModule from './components/ShopModule';
+import TaskModule from './components/TaskModule';
+import EventsModule from './components/EventsModule';
+import MobileSimulator from './components/MobileSimulator';
+import { 
+  LayoutDashboard, 
+  Store, 
+  CheckSquare, 
+  CalendarDays, 
+  RotateCcw, 
+  Moon, 
+  Sun,
+  Activity,
+  Award
+} from 'lucide-react';
+
+function App() {
+  const { 
+    user, 
+    toastMessage, 
+    resetToDefault,
+    isDarkMode,
+    setIsDarkMode
+  } = useGIB();
+
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard', 'shop', 'tasks', 'events'
+
+  // Koyu mod toggler
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    const body = document.body;
+    if (!isDarkMode) {
+      body.classList.add('dark-theme');
+    } else {
+      body.classList.remove('dark-theme');
+    }
+  };
+
+  const renderActiveModule = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <OverviewModule />;
+      case 'shop':
+        return <ShopModule />;
+      case 'tasks':
+        return <TaskModule />;
+      case 'events':
+        return <EventsModule />;
+      default:
+        return <OverviewModule />;
+    }
+  };
+
+  return (
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-300 ${isDarkMode ? 'bg-dark-bg text-dark-text-primary dark-theme' : 'bg-background text-text-primary'}`}>
+      
+      {/* GLOBAL TOAST NOTIFICATION */}
+      {toastMessage && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 glass px-6 py-3 rounded-full shadow-lg border border-primary/20 animate-pop text-sm font-semibold flex items-center gap-2 text-primary dark:text-dark-primary">
+          <Award className="w-4 h-4 text-accent" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* HEADER NAVBAR 
+<truncated 7067 bytes>
